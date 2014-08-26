@@ -66,7 +66,7 @@ if jproperties_strict_syntax != 0
 
 	" an identifier is anything not a space character, pretty much; it's
 	" followed by = or :, or space or tab.  Or end-of-line.
-	syn match   jpropertiesIdentifier	"[^=:[:space:]]*" contained nextgroup=jpropertiesDelimiter
+	syn match   jpropertiesIdentifier	"[^=:[:space:]]*" contained nextgroup=jpropertiesDelimiter contains=@NoSpell
 
 	" treat the delimiter specially to get colours right
 	syn match   jpropertiesDelimiter	"\s*[=:[:space:]]\s*" contained nextgroup=jpropertiesString
@@ -81,7 +81,7 @@ else
 
 	" an identifier is anything not a space character, pretty much; it's
 	" always followed by = or :, and we find it in an assignment
-	syn match   jpropertiesIdentifier	"[^=:[:space:]]\+" contained nextgroup=jpropertiesDelimiter
+	syn match   jpropertiesIdentifier	"[^=:[:space:]]\+" contained nextgroup=jpropertiesDelimiter contains=@NoSpell
 
 	" treat the delimiter specially to get colours right; this time the
 	" delimiter must contain = or :
