@@ -91,28 +91,27 @@ endif
 " a definition is all up to the last non-\-terminated line; strictly, Java
 " properties tend to ignore leading whitespace on all lines of a multi-line
 " definition, but we don't look for that here (because it's a major hassle)
-syn region  jpropertiesString		start="" skip="\\$" end="$" contained contains=jpropertiesSpecialChar,jpropertiesError,jpropertiesSpecial
+syn region  jpropertiesString		start="" skip="\\$" end="$" contained contains=jpropertiesSpecialChar,jpropertiesError,jpropertiesSpecial,jpropertiesMessageFormat
 
 " {...} is a Java Message formatter - add a minimal recognition of these
 " if required
 if jproperties_show_messages != 0
-	syn match   jpropertiesSpecial		"{[^}]*}\{-1,\}" contained
-	syn match   jpropertiesSpecial		"'{" contained
-	syn match   jpropertiesSpecial		"''" contained
+	syn match   jpropertiesMessageFormat	"{[^}]*}\{-1,\}" contained contains=@NoSpell
+	syn match   jpropertiesSpecial		"'."he=e-1 contained
 endif
 
 " \uABCD are unicode special characters
-syn match   jpropertiesSpecialChar	"\\u\x\{1,4}" contained
+syn match   jpropertiesSpecialChar	"\\u\x\{1,4}" contained contains=@NoSpell
 
 " ...and \u not followed by a hex digit is an error, though the properties
 " file parser won't issue an error on it, just set something wacky like zero
-syn match   jpropertiesError		"\\u\X\{1,4}" contained
-syn match   jpropertiesError		"\\u$"me=e-1 contained
+syn match   jpropertiesError		"\\u\X\{1,4}" contained contains=@NoSpell
+syn match   jpropertiesError		"\\u$"me=e-1 contained contains=@NoSpell
 
 " other things of note are the \t,r,n,\, and the \ preceding line end
-syn match   jpropertiesSpecial		"\\[trn\\]" contained
-syn match   jpropertiesSpecial		"\\\s" contained
-syn match   jpropertiesSpecial		"\\$" contained
+syn match   jpropertiesSpecial		"\\[trn\\]" contained contains=@NoSpell
+syn match   jpropertiesSpecial		"\\\s" contained contains=@NoSpell
+syn match   jpropertiesSpecial		"\\$" contained contains=@NoSpell
 
 " comments begin with # or !, and persist to end of line; put here since
 " they may have been caught by patterns above us
@@ -138,6 +137,7 @@ if version >= 508 || !exists("did_jproperties_syntax_inits")
 	HiLink jpropertiesCharacter	Character
 	HiLink jpropertiesSpecial	Special
 	HiLink jpropertiesSpecialChar	SpecialChar
+	HiLink jpropertiesMessageFormat	Statement
 	HiLink jpropertiesError	Error
 
   delcommand HiLink
