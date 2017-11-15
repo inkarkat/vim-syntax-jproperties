@@ -91,13 +91,15 @@ endif
 " a definition is all up to the last non-\-terminated line; strictly, Java
 " properties tend to ignore leading whitespace on all lines of a multi-line
 " definition, but we don't look for that here (because it's a major hassle)
-syn region  jpropertiesString		start="" skip="\\$" end="$" contained contains=jpropertiesSpecialChar,jpropertiesError,jpropertiesSpecial,jpropertiesMessageFormat
+syn region  jpropertiesString		start="" skip="\\$" end="$" contained contains=jpropertiesSpecialChar,jpropertiesError,jpropertiesSpecial,jpropertiesMessageFormat,jpropertiesMessageQuote,jpropertiesMessageQQuote
 
 " {...} is a Java Message formatter - add a minimal recognition of these
 " if required
 if jproperties_show_messages != 0
 	syn match   jpropertiesMessageFormat	"{[^}]*}\{-1,\}" contained contains=@NoSpell
-	syn match   jpropertiesSpecial		"'."he=e-1 contained
+	syn match   jpropertiesMessageQQuote	"''"he=e-1 contained
+	syn match   jpropertiesMessageQuote	"'[^']\+'" contained contains=jpropertiesMessageQText
+	syn match   jpropertiesMessageQText	"'\zs[^']\+\ze'" contained
 endif
 
 " \uABCD are unicode special characters
@@ -138,6 +140,9 @@ if version >= 508 || !exists("did_jproperties_syntax_inits")
 	HiLink jpropertiesSpecial	Special
 	HiLink jpropertiesSpecialChar	SpecialChar
 	HiLink jpropertiesMessageFormat	Statement
+	HiLink jpropertiesMessageQuote  jpropertiesSpecial
+	HiLink jpropertiesMessageQQuote jpropertiesSpecial
+	HiLink jpropertiesMessageQText  jpropertiesString
 	HiLink jpropertiesError	Error
 
   delcommand HiLink
