@@ -37,6 +37,8 @@ endif
 "   setting a non-zero value will highlight them.  Messages are of the form
 "   "{...}".  Highlighting doesn't go to the pains of picking apart what is
 "   in the format itself - just the basics for now.
+"   global-local: Global default can be overridden by a buffer-local variable
+"   (e.g. in a filetype plugin).
 if !exists("jproperties_show_messages")
 	let jproperties_show_messages = 0
 endif
@@ -95,7 +97,7 @@ syn region  jpropertiesString		start="" skip="\\$" end="$" contained contains=jp
 
 " {...} is a Java Message formatter - add a minimal recognition of these
 " if required
-if jproperties_show_messages != 0
+if (exists('b:jproperties_show_messages') && b:jproperties_show_messages) || g:jproperties_show_messages
 	syn match   jpropertiesMessageFormat	"{[^}]*}\{-1,\}" contained contains=@NoSpell
 	syn match   jpropertiesMessageQQuote	"''"he=e-1 contained
 	syn match   jpropertiesMessageQuote	"'[^']\+'" contained contains=jpropertiesMessageQText
