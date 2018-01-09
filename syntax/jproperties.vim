@@ -100,8 +100,8 @@ syn region  jpropertiesString		start="" skip="\\$" end="$" contained contains=jp
 if (exists('b:jproperties_show_messages') && b:jproperties_show_messages) || g:jproperties_show_messages
 	syn match   jpropertiesMessageFormat	"{[^}]*}\{-1,\}" contained contains=@NoSpell
 	syn match   jpropertiesMessageQQuote	"''"he=e-1 contained
-	syn match   jpropertiesMessageQuote	"'[^']\+'" contained contains=jpropertiesMessageQText
-	syn match   jpropertiesMessageQText	"'\zs[^']\+\ze'" contained
+	syn match   jpropertiesMessageQuote	"'[^']\+\%('\|$\)" contained contains=jpropertiesMessageQText
+	syn match   jpropertiesMessageQText	"'\zs[^']\+\ze\%('\|$\)" contained
 endif
 
 " \uABCD are unicode special characters
