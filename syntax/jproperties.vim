@@ -100,7 +100,8 @@ syn region  jpropertiesString		start="" skip="\\$" end="$" contained contains=jp
 if (exists('b:jproperties_show_messages') && b:jproperties_show_messages) || g:jproperties_show_messages
 	syn match   jpropertiesMessageFormat	"{[^}]*}\{-1,\}" contained contains=@NoSpell
 	syn match   jpropertiesMessageQQuote	"''"he=e-1 contained
-	syn match   jpropertiesMessageQuote	"'[^']\+\%('\|$\)" contained contains=jpropertiesMessageQText
+	syn match   jpropertiesMessageQuote	"'[^']\+\%('\|$\)" contained contains=jpropertiesMessageQText,jpropertiesMessageQuoteError
+	syn match   jpropertiesMessageQuoteError "'[mt]\>"
 	syn match   jpropertiesMessageQText	"'\zs[^']\+\ze\%('\|$\)" contained
 endif
 
@@ -146,6 +147,7 @@ if version >= 508 || !exists("did_jproperties_syntax_inits")
 	HiLink jpropertiesMessageQQuote jpropertiesSpecial
 	HiLink jpropertiesMessageQText  jpropertiesString
 	HiLink jpropertiesError	Error
+	HiLink jpropertiesMessageQuoteError jpropertiesError
 
   delcommand HiLink
 endif
