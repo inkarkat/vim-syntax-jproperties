@@ -93,16 +93,17 @@ endif
 " a definition is all up to the last non-\-terminated line; strictly, Java
 " properties tend to ignore leading whitespace on all lines of a multi-line
 " definition, but we don't look for that here (because it's a major hassle)
-syn region  jpropertiesString		start="" skip="\\$" end="$" contained contains=jpropertiesSpecialChar,jpropertiesError,jpropertiesSpecial,jpropertiesMessageFormat,jpropertiesMessageQuote,jpropertiesMessageQQuote
+syn region  jpropertiesString		start="" skip="\\$" end="$" contained contains=jpropertiesSpecialChar,jpropertiesError,jpropertiesSpecial,jpropertiesMessageFormat,jpropertiesMessageQuoteArea,jpropertiesMessageQQuote
 
 " {...} is a Java Message formatter - add a minimal recognition of these
 " if required
 if (exists('b:jproperties_show_messages') && b:jproperties_show_messages) || g:jproperties_show_messages
 	syn match   jpropertiesMessageFormat	"{[^}]*}\{-1,\}" contained contains=@NoSpell
 	syn match   jpropertiesMessageQQuote	"''"he=e-1 contained
-	syn match   jpropertiesMessageQuote	"'[^']\+\%('\|$\)" contained contains=jpropertiesMessageQText,jpropertiesMessageQuoteError
-	syn match   jpropertiesMessageQuoteError "'[mt]\>"
-	syn match   jpropertiesMessageQText	"'\zs[^']\+\ze\%('\|$\)" contained
+	syn match   jpropertiesMessageQuote	"'" contained
+	syn match   jpropertiesMessageQuoteArea	"'[^']*\%([^']'\|$\)" contained contains=jpropertiesMessageQText,jpropertiesMessageQuoteError
+	syn match   jpropertiesMessageQText	"'[^']*{[^']*\%('\|$\)"hs=s+1,he=e-1 contained contains=jpropertiesMessageQuote
+	syn match   jpropertiesMessageQuoteError "'\%([^{]*\%([^{]'\|$\)\)\@=" contained
 endif
 
 " \uABCD are unicode special characters
